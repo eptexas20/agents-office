@@ -1,0 +1,20 @@
+{
+  "name": "the-branch",
+  "version": "1.0.0",
+  "description": "A pixel-art parody office where your Grok Bot desktop agents work as coworkers. Runs locally on Windows.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/*.test.js",
+    "preview": "node tests/preview-fixture.js",
+    "check:grok": "node scripts/test-grok.js"
+  },
+  "dependencies": {
+    "playwright-core": "^1.63.0"
+  }
+}

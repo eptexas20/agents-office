@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d9dfe3">
+  <title>The Branch — your agents, at work</title>
+  <link rel="stylesheet" href="/assets/fonts/fonts.css">
+  <link rel="stylesheet" href="/office.css?v=supplies1">
+  <link rel="stylesheet" href="/office-show.css?v=supplies1">
+  <link rel="stylesheet" href="/office-look.css?v=supplies1">
+</head>
+<body>
+  <div id="app-shell">
+    <header class="app-header" id="app-header">
+      <a class="brand" href="/" aria-label="The Branch home"><span class="brand-mark" data-office-initial>B<span>.</span></span><span data-office-name>The Branch<small data-office-tagline>Your agents, at work.</small></span></a>
+      <h1 id="office-title" class="office-title">A good day at the office.</h1>
+      <div class="header-actions">
+        <button id="release" class="quiet" hidden title="Close the hidden Grok Bot so you can open it yourself">Hand back Grok</button>
+        <button id="connect" class="primary">Connect my agents</button>
+      </div>
+    </header>
+    <main class="workspace" id="stage">
+      <div class="presentation-bar" id="presentation-bar" hidden>
+        <div class="presentation-brand"><span class="brand-mark compact" data-office-initial>B<span>.</span></span><strong data-office-name>The Branch</strong></div>
+        <div class="presentation-actions">
+          <button id="presentation-release" class="quiet" hidden title="Close the hidden Grok Bot so you can open it yourself">Hand back Grok</button>
+          <button id="presentation-connect" class="primary">Connect my agents</button>
+          <button id="exit-presentation" class="quiet" type="button">Exit presentation</button>
+        </div>
+      </div>
+      <section class="office-panel" aria-label="Virtual office">
+        <div class="folder-row">
+          <div id="theme-tabs" class="folder-tabs" role="group" aria-label="Holiday theme"></div>
+          <div class="view-controls">
+            <button id="demo-activity" aria-pressed="false" title="Busier office for filming: more walking, chatter and scenes. Never messages your agents.">Lively</button>
+            <button id="names" aria-pressed="true" title="Show coworker names">Names</button>
+            <button id="pause" aria-pressed="false">Pause office</button>
+            <button id="zoom-out" aria-label="Zoom out">−</button>
+            <output id="zoom-level" aria-label="Office zoom">100%</output>
+            <button id="zoom-fit" title="Show the entire office (0)">Fit</button>
+            <button id="zoom-in" aria-label="Zoom in">+</button>
+            <button id="fullscreen" aria-pressed="false" title="Fill the screen for filming">Fullscreen</button>
+          </div>
+        </div>
+        <div class="stage-frame">
+          <div id="office-viewport" tabindex="0" aria-label="Office map. Pinch or scroll to zoom, drag to pan. Use plus, minus, arrows, or zero when the map is focused. Tab to a coworker to open their conversation."><div id="room"></div></div>
+          <div id="show-overlay" aria-hidden="true"></div>
+        </div>
+        <div class="office-controls">
+          <div id="scene-stickies" class="stickies" role="group" aria-label="Scenes. Press a scene’s number to play it."></div>
+          <div class="scene-switches">
+            <label><input id="auto-scenes" type="checkbox" checked> Random scenes</label>
+            <label><input id="camera-moves" type="checkbox" checked> Camera zooms</label>
+          </div>
+        </div>
+      </section>
+      <aside class="team-panel" id="team-panel" aria-label="Coworkers and conversations">
+        <section id="team-view">
+          <h2>Your coworkers <span id="crew-count">9</span></h2>
+          <p class="panel-intro">Click someone to chat. Each coworker can run one of your Grok agents.</p>
+          <div id="roster" class="roster"></div>
+        </section>
+        <section id="chat" hidden aria-label="Coworker conversation">
+          <div class="chat-head">
+            <button id="close-chat" class="icon-button" aria-label="Back to all coworkers" title="All coworkers (Esc)">←</button>
+            <div id="agent-card"></div>
+          </div>
+          <div id="agent-link" class="agent-link">
+            <button id="chat-connect" class="primary connect-inline" type="button">Connect my agents</button>
+            <div id="agent-picked" class="agent-picked" hidden><span class="live-dot"></span><span id="agent-picked-name"></span><button id="change-agent" type="button" class="link-button">Change</button></div>
+            <label id="agent-choose" class="agent-choose" hidden><span class="sr-only">Agent for this coworker</span><select id="bots"><option value="">Choose an agent</option></select></label>
+            <p id="assignment-note"></p>
+          </div>
+          <div id="thread" class="thread" aria-live="polite" aria-relevant="additions"></div>
+          <div id="suggestions" class="suggestions"></div>
+          <form id="composer" class="composer"><label class="sr-only" for="message">Message your agent</label><textarea id="message" rows="1" maxlength="8000" placeholder="Message…"></textarea><button id="send" class="send-button" type="submit" disabled aria-label="Send message">↑</button></form>
+          <div class="chat-foot"><small>Enter to send. Shift + Enter for a new line.</small><button id="clear-chat" type="button" class="link-button">Clear chat</button></div>
+          <details class="activity-details"><summary>Connection activity</summary><pre id="log"></pre></details>
+        </section>
+      </aside>
+      <div id="notice" class="notice" role="status" hidden></div>
+    </main>
+  </div>
+  <script type="module" src="/office.js?v=supplies1"></script>
+</body>
+</html>

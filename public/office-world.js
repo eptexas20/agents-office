@@ -16,17 +16,17 @@ function loadSprites() {
       const image = new Image(); image.onload = () => resolve(image); image.onerror = reject; image.src = SEATED_ATLAS;
     }),
     fetch('/assets/branch-coworkers-seated-v2.frames.json').then(r => { if (!r.ok) throw Error('Seated sprite alignment could not load.'); return r.json(); }),
-  ]).then(([atlas, frames, seatedAtlas, seatedFrames]) => {
-    // Coworkers without painted artwork are drawn in code once, here.
+  ]).then(async ([atlas, frames, seatedAtlas, seatedFrames]) => {
+    // Load character-specific artwork once alongside the shared crew atlases.
     const variants = {};
-    for (const member of CREW.filter(m => m.sprite)) variants[member.sprite] ??= DRAWN[member.sprite](member.row);
+    for (const member of CREW.filter(m => m.sprite)) variants[member.sprite] ??= await CHARACTER_ART[member.sprite](member.row);
     return { atlas, frames, seatedAtlas, seatedFrames, variants };
   });
   return spriteAssets;
 }
 
-const DRAWN = { kelvin: buildKelvin };
-// The body a coworker is drawn from: their row in the painted atlas, or a drawn sprite.
+const CHARACTER_ART = { kelvin: buildKelvin };
+// The body a coworker is drawn from: their row in the shared atlas, or character-specific artwork.
 function bodyOf(sprites, p, seated) {
   const variant = p.sprite && sprites.variants[p.sprite];
   if (variant) return seated ? variant.sit : variant.stand;
@@ -63,7 +63,7 @@ function drawFrame(canvas, atlas, frame, seated = false, flip = false, hat = nul
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = 'high';
   context.clearRect(0, 0, 96, 128);
-  // Drawn frames carry their own scale; painted frames fit the sprite box.
+  // Character-specific frames carry their own scale; shared frames fit the sprite box.
   const scale = frame.scale ?? Math.min(1, 90 / frame.w, (seated ? 98 : 120) / frame.h);
   const left = (96 - frame.w * scale) / 2, top = 125 - frame.h * scale;
   context.save();

@@ -24,9 +24,12 @@ test('every coworker has seated artwork and a chair with a clear floor approach'
     assert.equal(seatedPosition(p).x, SEATS[p.home].x);
     assert.equal(seatedPosition(p).y, SEATS[p.home].y);
     if (p.sprite) {
-      // Drawn in code (canvas), so check the drawing module rather than the painted atlas.
+      // Character-specific artwork is loaded separately from the shared crew atlas.
       const source = fs.readFileSync(new URL(`../public/office-${p.sprite}.js`, import.meta.url), 'utf8');
-      assert.match(source, /export function build\w+\(row\)/, `${p.name} has a drawn sprite`);
+      assert.match(source, /export (?:async )?function build\w+\(row\)/, `${p.name} has a sprite builder`);
+      const characterPng = fs.readFileSync(new URL(`../public/assets/${p.sprite}-sprites.png`, import.meta.url));
+      assert.equal(characterPng.toString('hex', 0, 8), '89504e470d0a1a0a', 'sprite asset is a PNG');
+      assert.ok(characterPng.readUInt32BE(16) >= 512 && characterPng.readUInt32BE(20) >= 512, 'sprite sheet has enough resolution for 16 poses');
       continue;
     }
     assert.equal(frames.rows[p.row].length, 4);

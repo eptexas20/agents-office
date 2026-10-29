@@ -183,7 +183,7 @@ export const CREW = [
   { id: 'ellie', row: 5, home: 'accounting', routine: ['copy', 'water', 'coffee'] },
   { id: 'harris', row: 6, home: 'salesThree', routine: ['kitchen', 'water', 'lounge'] },
   { id: 'nora', row: 7, home: 'salesFour', routine: ['coffee', 'copy', 'meeting'] },
-  // Kelvin has no painted artwork; office-kelvin.js draws him in code. He keeps a snack habit.
+  // Kelvin uses his own approved raster sprite sheet for every pose. He keeps a snack habit.
   { id: 'kelvin', row: 8, sprite: 'kelvin', home: 'accountingTwo', routine: ['kitchen', 'water', 'coffee'],
     habit: { to: 'vending', every: { normal: [240, 360], demo: [150, 240] }, first: [45, 90], stay: [10, 18] } },
 ].map(named);

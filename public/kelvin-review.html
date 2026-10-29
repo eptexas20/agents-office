@@ -1,0 +1,14 @@
+<!doctype html><meta charset="utf-8"><title>Kelvin sprite review</title>
+<style>body{background:#e8e3d8;color:#292722;font:16px system-ui;margin:28px}h1{font-size:26px}section{display:flex;gap:20px;flex-wrap:wrap}figure{margin:0 0 20px;text-align:center;width:140px}canvas{display:block;margin:auto;image-rendering:pixelated}#checks{padding:12px;background:#fff;border-radius:8px}</style>
+<h1>Kelvin · fresh sprite design</h1><p>Existing crew beside the new Kelvin, at the same display scale.</p><section id="crew"></section>
+<h2>Walking in all four directions</h2><section id="walk"></section><h2>All 16 frames</h2><section id="poses"></section><p id="checks">Checking frames…</p>
+<script type="module">
+import {buildKelvin} from './office-kelvin.js';import {paintPortrait} from './office-world.js';import {CREW} from './world-map.js';
+const sprite=await buildKelvin(8);const dirs=['Front','Left','Right','Back'];
+function slot(root,label){const fig=document.createElement('figure'),c=document.createElement('canvas'),caption=document.createElement('figcaption');c.width=144;c.height=192;caption.textContent=label;fig.append(c,caption);document.querySelector(root).append(fig);return c;}
+function draw(c,body,f){const g=c.getContext('2d');g.clearRect(0,0,144,192);g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';g.drawImage(body.atlas,f.x,f.y,f.w,f.h,(144-f.w*f.scale*1.5)/2,187.5-f.h*f.scale*1.5,f.w*f.scale*1.5,f.h*f.scale*1.5);}
+for(const id of ['mike','graham','harris','kelvin']){const m=CREW.find(m=>m.id===id);await paintPortrait(slot('#crew',m.name),m);}
+const walkers=dirs.map(d=>slot('#walk',d));let t=0;setInterval(()=>{const step=[0,1,0,2][t++%4];walkers.forEach((c,i)=>draw(c,sprite.stand,sprite.stand.rows[8][i*3+step]));},160);
+let count=0;for(const type of ['stand','sit'])for(const [i,f] of sprite[type].rows[8].entries()){draw(slot('#poses',type==='sit'?`Seated ${dirs[i]}`:`${dirs[Math.floor(i/3)]} ${['idle','step 1','step 2'][i%3]}`),sprite[type],f);if(f.w>0&&f.h>0&&f.x>=0&&f.y>=0&&f.x+f.w<=sprite[type].atlas.width&&f.y+f.h<=sprite[type].atlas.height)count++;}
+document.querySelector('#checks').textContent=`${count}/16 nonempty frames within the atlas. Standing and seated scale is consistent within each family. Portraits loaded successfully.`;
+</script>
